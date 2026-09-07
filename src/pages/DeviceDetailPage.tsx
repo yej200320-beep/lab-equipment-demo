@@ -214,7 +214,7 @@ export default function DeviceDetailPage() {
       <Card
         title="当前运行状态"
         className="section-row process-status-card"
-        extra={<Tag color="blue">来源：设备采集接口</Tag>}
+        // extra={<Tag color="blue">来源：设备采集接口</Tag>}
       >
         <div className="process-status-grid">
           {[
@@ -405,13 +405,13 @@ export default function DeviceDetailPage() {
         }
         width={720}
       >
-        <Alert
+        {/* <Alert
           showIcon
           type="info"
           message="本平台为下游只读端"
           description="数据流向：Maximo → 集成接口 → 本平台 → 电子标签。本页面只展示接收与写入结果，不向 Maximo 主动写回。"
           className="detail-alert"
-        />
+        /> */}
         <Row gutter={24}>
           <Col span={14}>
             <EpaperPreview device={d} />
