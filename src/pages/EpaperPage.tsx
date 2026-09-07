@@ -53,13 +53,13 @@ export default function EpaperPage() {
           style={{ width: 280 }}
         />
       </div>
-      <Alert
+      {/* <Alert
         showIcon
         type="info"
         className="detail-alert"
         message="电子标签内容由上游 Maximo 数据驱动"
         description="本平台负责接收、展示并监测同步结果，不提供人工修改或向 Maximo 写回入口。"
-      />
+      /> */}
       <Row gutter={[16, 16]}>
         {view.map((d) => (
           <Col xs={24} lg={12} xl={8} key={d.id}>

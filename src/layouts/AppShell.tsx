@@ -156,7 +156,7 @@ export default function AppShell() {
           items={menuItems}
           onClick={({ key }) => key.startsWith("/") && navigate(key)}
         />
-        <div className="side-footer">
+        {/* <div className="side-footer">
           <span className="pulse" />
           {!collapsed && (
             <>
@@ -165,7 +165,7 @@ export default function AppShell() {
               <small>v1.0 · DEMO 环境</small>
             </>
           )}
-        </div>
+        </div> */}
       </Sider>
       <Layout
         className="main-layout"
