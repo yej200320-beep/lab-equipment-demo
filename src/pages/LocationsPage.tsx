@@ -565,14 +565,25 @@ export default function LocationsPage() {
           </Row>
         </Card>
         )} */}
+       
         <Drawer
-          title={`${selectedRoom ?? ""} · 房间设备`}
-          placement="bottom"
-          open={!!selectedRoom}
-          onClose={() => setSelectedRoom(undefined)}
-          height="48vh"
-          destroyOnClose
-        >
+            title={`${selectedRoom ?? ""} · 房间设备`}
+            placement="bottom"
+            open={!!selectedRoom}
+            onClose={() => setSelectedRoom(undefined)}
+            height="48vh"
+            destroyOnClose
+            styles={{
+              wrapper: {
+                left: 288,
+                width: "calc(100% - 288px)",
+              },
+              mask: {
+                left: 288,
+                width: "calc(100% - 288px)",
+              },
+            }}
+          >
           {selectedRoom && (
             <Row gutter={[16, 16]}>
               <Col xs={24} lg={7}>
