@@ -573,6 +573,7 @@ export default function LocationsPage() {
             onClose={() => setSelectedRoom(undefined)}
             height="48vh"
             destroyOnClose
+            mask={false}
             styles={{
               wrapper: {
                 left: 288,
