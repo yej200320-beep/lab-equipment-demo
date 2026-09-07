@@ -178,6 +178,13 @@ export const devices: Device[] = Array.from({ length: 40 }, (_, i) => {
   const cal = lifecycle(calDays[i]),
     pm = lifecycle(pmDays[i]),
     val = lifecycle(valDays[i]);
+  const processAttention = i % 11 === 0;
+  const processStandby = !online || i % 9 === 0;
+  const metricStatus = processStandby
+    ? "待机"
+    : processAttention
+      ? "关注"
+      : "正常";
   return {
     id: i === 0 ? "EQ-001527" : `EQ-${String(120 + i).padStart(5, "0")}`,
     name: names[i % names.length],
@@ -201,6 +208,35 @@ export const devices: Device[] = Array.from({ length: 40 }, (_, i) => {
     overall: worstStatus([cal, pm, val]),
     tagId: `BLE-29-${String(3000 + i)}`,
     tagUpdatedAt: `2026-09-${String(1 + (i % 3)).padStart(2, "0")} 10:${String((i * 3) % 60).padStart(2, "0")}`,
+    maximoSyncedAt: `2026-09-03 ${String(15 - (i % 4)).padStart(2, "0")}:${String((i * 7) % 60).padStart(2, "0")}`,
+    process: {
+      ph: {
+        value: processStandby ? "—" : (6.82 + (i % 7) * 0.06).toFixed(2),
+        status: metricStatus,
+      },
+      temperature: {
+        value: processStandby ? "—" : `${20 + (i % 8)}.${i % 10} ℃`,
+        status: metricStatus,
+      },
+      chromatography: {
+        value: processStandby
+          ? "待机"
+          : processAttention
+            ? "基线波动"
+            : i % 3 === 0
+              ? "运行中"
+              : "基线稳定",
+        status: metricStatus,
+      },
+      speed: {
+        value: processStandby ? "0 rpm" : `${800 + (i % 9) * 250} rpm`,
+        status: metricStatus,
+      },
+      pressure: {
+        value: processStandby ? "—" : `${98 + (i % 7) * 4} kPa`,
+        status: metricStatus,
+      },
+    },
   };
 });
 

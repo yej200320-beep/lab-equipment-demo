@@ -16,7 +16,22 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { LifecycleTag, OnlineBadge, RiskTag } from "../components/StatusTag";
 import { departments, devices } from "../mock/data";
 import { useDemo } from "../store/DemoContext";
-import type { Device } from "../types";
+import type { Device, ProcessMetric } from "../types";
+
+function ProcessMetricCell({ metric }: { metric: ProcessMetric }) {
+  const color =
+    metric.status === "正常"
+      ? "green"
+      : metric.status === "关注"
+        ? "orange"
+        : "default";
+  return (
+    <div className="process-metric-cell">
+      <span>{metric.value}</span>
+      <Tag color={color}>{metric.status}</Tag>
+    </div>
+  );
+}
 
 export default function DevicesPage() {
   const { visibleDepartments } = useDemo();
@@ -103,6 +118,41 @@ export default function DevicesPage() {
       dataIndex: "val",
       width: 125,
       render: (v: Device["val"]) => <LifecycleTag item={v} />,
+    },
+    {
+      title: "pH",
+      width: 94,
+      render: (_: unknown, r: Device) => (
+        <ProcessMetricCell metric={r.process.ph} />
+      ),
+    },
+    {
+      title: "温度",
+      width: 104,
+      render: (_: unknown, r: Device) => (
+        <ProcessMetricCell metric={r.process.temperature} />
+      ),
+    },
+    {
+      title: "色谱状态",
+      width: 112,
+      render: (_: unknown, r: Device) => (
+        <ProcessMetricCell metric={r.process.chromatography} />
+      ),
+    },
+    {
+      title: "转速",
+      width: 112,
+      render: (_: unknown, r: Device) => (
+        <ProcessMetricCell metric={r.process.speed} />
+      ),
+    },
+    {
+      title: "压力",
+      width: 108,
+      render: (_: unknown, r: Device) => (
+        <ProcessMetricCell metric={r.process.pressure} />
+      ),
     },
     {
       title: "BLE",
@@ -233,7 +283,7 @@ export default function DevicesPage() {
           dataSource={source}
           columns={columns}
           size="middle"
-          scroll={{ x: 1320 }}
+          scroll={{ x: 1840 }}
           pagination={{
             pageSize: 10,
             showSizeChanger: true,

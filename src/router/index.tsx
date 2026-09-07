@@ -1,4 +1,3 @@
-// import { Navigate, createBrowserRouter } from "react-router-dom";
 import { Navigate, createHashRouter } from "react-router-dom";
 import AppShell from "../layouts/AppShell";
 import AdminPage from "../pages/AdminPage";
@@ -15,7 +14,6 @@ function Protected() {
   const { currentUser } = useDemo();
   return currentUser ? <AppShell /> : <Navigate to="/login" replace />;
 }
-// export const router = createBrowserRouter([
 export const router = createHashRouter([
   { path: "/login", element: <LoginPage /> },
   {

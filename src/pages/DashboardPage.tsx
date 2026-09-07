@@ -23,7 +23,7 @@ import { useDemo } from "../store/DemoContext";
 import { statusMeta } from "../utils/status";
 
 export default function DashboardPage() {
-  const { currentUser, alerts, visibleDepartments } = useDemo();
+  const { alerts, visibleDepartments } = useDemo();
   const navigate = useNavigate();
   const view = devices.filter((d) => visibleDepartments.includes(d.department));
   const count = (s: string) => view.filter((d) => d.overall === s).length;
@@ -58,9 +58,6 @@ export default function DashboardPage() {
       <div className="page-heading">
         <div>
           <Typography.Title level={2}>运营总览</Typography.Title>
-          {/* <Typography.Text type="secondary">
-            欢迎回来，{currentUser?.name}。以下是当前权限范围内的设备运营状态。
-          </Typography.Text> */}
         </div>
         <Space>
           <Tag icon={<CloudSyncOutlined />} color="green">

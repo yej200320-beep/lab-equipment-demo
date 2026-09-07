@@ -33,6 +33,21 @@ export interface LifecycleItem {
   status: RiskStatus;
 }
 
+export type ProcessMetricStatus = "正常" | "关注" | "待机";
+
+export interface ProcessMetric {
+  value: string;
+  status: ProcessMetricStatus;
+}
+
+export interface ProcessStatus {
+  ph: ProcessMetric;
+  temperature: ProcessMetric;
+  chromatography: ProcessMetric;
+  speed: ProcessMetric;
+  pressure: ProcessMetric;
+}
+
 export interface Device {
   id: string;
   name: string;
@@ -54,6 +69,8 @@ export interface Device {
   overall: RiskStatus;
   tagId: string;
   tagUpdatedAt: string;
+  maximoSyncedAt: string;
+  process: ProcessStatus;
 }
 
 export type AlertStatus = "OPEN" | "ACKNOWLEDGED" | "IN PROGRESS" | "CLOSED";

@@ -49,9 +49,6 @@ export default function LoginPage() {
       <Card className="login-card">
         <div className="demo-label">YE JUN</div>
         <Typography.Title level={3}>选择演示身份</Typography.Title>
-        {/* <Typography.Paragraph type="secondary">
-          无需密码，选择身份即可进入相应权限视图。
-        </Typography.Paragraph> */}
         <Row gutter={[12, 12]}>
           {users.map((u) => (
             <Col span={24} key={u.id}>
@@ -79,9 +76,6 @@ export default function LoginPage() {
             </Col>
           ))}
         </Row>
-        {/* <p className="login-note">
-          本系统为方案演示环境，所有外部连接与业务数据均为模拟。
-        </p> */}
       </Card>
     </div>
   );

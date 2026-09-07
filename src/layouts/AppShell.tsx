@@ -122,6 +122,7 @@ export default function AppShell() {
   const section =
     Object.keys(titleMap).find((k) => location.pathname.startsWith(k)) ||
     "/dashboard";
+  const isDashboard = location.pathname === "/dashboard";
   if (!currentUser) return null;
   return (
     <Layout className="app-shell">
@@ -181,18 +182,21 @@ export default function AppShell() {
               {titleMap[section]}
             </Typography.Text>
           </Space>
-          <Input
-            prefix={<SearchOutlined />}
-            placeholder="搜索设备编号、名称或房间"
-            className="global-search"
-            onPressEnter={(e) =>
-              navigate(
-                `/devices?q=${encodeURIComponent(e.currentTarget.value)}`,
-              )
-            }
-          />
+          {isDashboard ? (
+            <Input
+              prefix={<SearchOutlined />}
+              placeholder="搜索设备编号、名称或房间"
+              className="global-search"
+              onPressEnter={(e) =>
+                navigate(
+                  `/devices?q=${encodeURIComponent(e.currentTarget.value)}`,
+                )
+              }
+            />
+          ) : (
+            <span className="topbar-spacer" aria-hidden="true" />
+          )}
           <Space size={12}>
-            {/* <Tag color="orange">DEMO · MOCK DATA</Tag> */}
             <Tag color="orange">YE JUN</Tag>
             <Tooltip title="系统连接正常">
               <Badge status="success" text="系统状态" />

@@ -1,29 +1,28 @@
-import { AimOutlined, ReloadOutlined, SearchOutlined } from "@ant-design/icons";
+import { AimOutlined, SearchOutlined } from "@ant-design/icons";
 import {
+  Alert,
   Button,
   Card,
   Col,
   Descriptions,
   Input,
   message,
-  Modal,
   Row,
   Space,
   Tag,
   Typography,
 } from "antd";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { EpaperPreview } from "../components/EpaperPreview";
 import { OnlineBadge } from "../components/StatusTag";
 import { devices } from "../mock/data";
 import { useDemo } from "../store/DemoContext";
 
 export default function EpaperPage() {
-  const { visibleDepartments, hasPermission, updateEpaper, epaper, addLog } =
-    useDemo();
+  const { visibleDepartments, hasPermission, addLog } = useDemo();
+  const navigate = useNavigate();
   const [query, setQuery] = useState("");
-  const [selected, setSelected] = useState<(typeof devices)[0]>();
-  const [loading, setLoading] = useState(false);
   const [msg, ctx] = message.useMessage();
   const view = devices
     .filter(
@@ -35,17 +34,6 @@ export default function EpaperPage() {
             .includes(query.toLowerCase())),
     )
     .slice(0, 12);
-  const update = () => {
-    if (!selected) return;
-    setLoading(true);
-    msg.loading({ content: "正在下发电子标签更新…", key: "ep", duration: 0 });
-    setTimeout(() => {
-      updateEpaper(selected.id);
-      setLoading(false);
-      msg.success({ content: "电子标签更新成功", key: "ep" });
-      setSelected(undefined);
-    }, 900);
-  };
   return (
     <>
       {ctx}
@@ -53,7 +41,7 @@ export default function EpaperPage() {
         <div>
           <Typography.Title level={2}>电子标签</Typography.Title>
           <Typography.Text type="secondary">
-            管理 BLE + 2.9 英寸电子墨水屏标签
+            查看 Maximo 下游数据在 BLE + 2.9 英寸电子墨水屏上的同步状态
           </Typography.Text>
         </div>
         <Input
@@ -65,6 +53,13 @@ export default function EpaperPage() {
           style={{ width: 280 }}
         />
       </div>
+      <Alert
+        showIcon
+        type="info"
+        className="detail-alert"
+        message="电子标签内容由上游 Maximo 数据驱动"
+        description="本平台负责接收、展示并监测同步结果，不提供人工修改或向 Maximo 写回入口。"
+      />
       <Row gutter={[16, 16]}>
         {view.map((d) => (
           <Col xs={24} lg={12} xl={8} key={d.id}>
@@ -91,18 +86,19 @@ export default function EpaperPage() {
                   },
                   {
                     key: "4",
-                    label: "Last Updated",
-                    children: epaper[d.id] || d.tagUpdatedAt,
+                    label: "标签写入",
+                    children: d.tagUpdatedAt,
+                  },
+                  {
+                    key: "5",
+                    label: "Maximo 接收",
+                    children: d.maximoSyncedAt,
                   },
                 ]}
               />
               <Space className="epaper-actions">
-                <Button
-                  icon={<ReloadOutlined />}
-                  disabled={!hasPermission("EPAPER_UPDATE")}
-                  onClick={() => setSelected(d)}
-                >
-                  更新显示
+                <Button onClick={() => navigate(`/devices/${d.id}`)}>
+                  查看设备
                 </Button>
                 <Button
                   icon={<AimOutlined />}
@@ -121,26 +117,11 @@ export default function EpaperPage() {
                 >
                   LED 闪烁
                 </Button>
-                <Button>重新绑定</Button>
               </Space>
             </Card>
           </Col>
         ))}
       </Row>
-      <Modal
-        open={!!selected}
-        title="确认更新电子墨水屏"
-        onCancel={() => setSelected(undefined)}
-        onOk={update}
-        confirmLoading={loading}
-        okText="更新显示"
-        width={660}
-      >
-        {selected && <EpaperPreview device={selected} />}
-        <Typography.Paragraph type="secondary" className="modal-copy">
-          将把最新设备状态和到期日期下发至电子标签。本操作为 Mock 交互。
-        </Typography.Paragraph>
-      </Modal>
     </>
   );
 }

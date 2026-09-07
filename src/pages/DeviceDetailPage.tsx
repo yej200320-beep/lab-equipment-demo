@@ -1,9 +1,9 @@
 import {
   AimOutlined,
   ArrowLeftOutlined,
+  CloudDownloadOutlined,
   EnvironmentOutlined,
   ReloadOutlined,
-  TagsOutlined,
   WarningOutlined,
 } from "@ant-design/icons";
 import {
@@ -62,8 +62,7 @@ function LifecycleCard({
 export default function DeviceDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { hasPermission, addLog, updateEpaper, epaper, notifications, logs } =
-    useDemo();
+  const { hasPermission, addLog, notifications, logs } = useDemo();
   const d = devices.find((x) => x.id === id);
   const [ledOpen, setLedOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -128,14 +127,10 @@ export default function DeviceDetailPage() {
             刷新位置
           </Button>
           <Button
-            icon={<TagsOutlined />}
-            disabled={!hasPermission("EPAPER_UPDATE")}
-            title={
-              !hasPermission("EPAPER_UPDATE") ? "缺少 EPAPER_UPDATE 权限" : ""
-            }
+            icon={<CloudDownloadOutlined />}
             onClick={() => setTagOpen(true)}
           >
-            更新电子标签
+            查看标签同步
           </Button>
           <Button
             type="primary"
@@ -216,6 +211,39 @@ export default function DeviceDetailPage() {
           </Card>
         </Col>
       </Row>
+      <Card
+        title="当前运行状态"
+        className="section-row process-status-card"
+        extra={<Tag color="blue">来源：设备采集接口</Tag>}
+      >
+        <div className="process-status-grid">
+          {[
+            ["pH", d.process.ph],
+            ["温度", d.process.temperature],
+            ["色谱", d.process.chromatography],
+            ["转速", d.process.speed],
+            ["压力", d.process.pressure],
+          ].map(([label, metric]) => {
+            const item = metric as (typeof d.process)["ph"];
+            return (
+              <div className="process-status-item" key={label as string}>
+                <span>{label as string}</span>
+                <strong>{item.value}</strong>
+                <Badge
+                  status={
+                    item.status === "正常"
+                      ? "success"
+                      : item.status === "关注"
+                        ? "warning"
+                        : "default"
+                  }
+                  text={item.status}
+                />
+              </div>
+            );
+          })}
+        </div>
+      </Card>
       <Card className="section-row">
         <Tabs
           items={[
@@ -363,28 +391,27 @@ export default function DeviceDetailPage() {
         />
         <Divider />
         <Typography.Paragraph>
-          电子标签 LED 将闪烁约 30 秒，请确认现场人员已进入相应房间。
+          电子标签 LED 将闪烁约 60秒。
         </Typography.Paragraph>
       </Modal>
       <Modal
-        title="更新电子标签"
+        title="电子标签同步状态"
         open={tagOpen}
         onCancel={() => setTagOpen(false)}
-        onOk={() =>
-          doAsync(
-            "正在下发电子标签更新…",
-            "电子标签更新成功",
-            "电子标签更新",
-            () => {
-              updateEpaper(d.id);
-              setTagOpen(false);
-            },
-          )
+        footer={
+          <Button type="primary" onClick={() => setTagOpen(false)}>
+            关闭
+          </Button>
         }
-        okText="更新显示"
-        confirmLoading={loading}
         width={720}
       >
+        <Alert
+          showIcon
+          type="info"
+          message="本平台为下游只读端"
+          description="数据流向：Maximo → 集成接口 → 本平台 → 电子标签。本页面只展示接收与写入结果，不向 Maximo 主动写回。"
+          className="detail-alert"
+        />
         <Row gutter={24}>
           <Col span={14}>
             <EpaperPreview device={d} />
@@ -403,10 +430,20 @@ export default function DeviceDetailPage() {
                 { key: "3", label: "电池", children: `${d.battery}%` },
                 {
                   key: "4",
-                  label: "最后更新时间",
-                  children: epaper[d.id] || d.tagUpdatedAt,
+                  label: "标签写入时间",
+                  children: d.tagUpdatedAt,
                 },
                 { key: "5", label: "绑定设备", children: d.id },
+                {
+                  key: "6",
+                  label: "Maximo 接收时间",
+                  children: d.maximoSyncedAt,
+                },
+                {
+                  key: "7",
+                  label: "同步状态",
+                  children: <Badge status="success" text="已接收" />,
+                },
               ]}
             />
           </Col>
