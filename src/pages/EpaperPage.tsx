@@ -40,9 +40,9 @@ export default function EpaperPage() {
       <div className="page-heading">
         <div>
           <Typography.Title level={2}>电子标签</Typography.Title>
-          <Typography.Text type="secondary">
+          {/* <Typography.Text type="secondary">
             查看 Maximo 下游数据在 BLE + 2.9 英寸电子墨水屏上的同步状态
-          </Typography.Text>
+          </Typography.Text> */}
         </div>
         <Input
           prefix={<SearchOutlined />}
