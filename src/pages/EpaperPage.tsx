@@ -33,7 +33,7 @@ export default function EpaperPage() {
       (d) =>
         visibleDepartments.includes(d.department) &&
         (!query ||
-          `${d.id}${d.name}${d.tagId}`
+          `${d.id}${d.name}${d.labelName}${d.tagId}`
             .toLowerCase()
             .includes(query.toLowerCase())),
     )
@@ -107,7 +107,13 @@ export default function EpaperPage() {
                 ]}
               />
               <Space className="epaper-actions" wrap>
-                <Button onClick={() => navigate(`/devices/${d.id}`)}>
+                <Button
+                  onClick={() =>
+                    navigate(`/devices/${d.id}`, {
+                      state: { returnTo: "/epaper" },
+                    })
+                  }
+                >
                   查看设备
                 </Button>
                 <Space.Compact>

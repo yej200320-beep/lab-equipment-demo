@@ -25,7 +25,7 @@ import {
   Typography,
 } from "antd";
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { EpaperPreview } from "../components/EpaperPreview";
 import { OnlineBadge, RiskTag } from "../components/StatusTag";
 import { devices } from "../mock/data";
@@ -62,6 +62,9 @@ function LifecycleCard({
 export default function DeviceDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const returnTo =
+    (location.state as { returnTo?: string } | null)?.returnTo || "/devices";
   const { hasPermission, addLog, notifications, logs } = useDemo();
   const d = devices.find((x) => x.id === id);
   const [ledOpen, setLedOpen] = useState(false);
@@ -73,7 +76,7 @@ export default function DeviceDetailPage() {
       <Alert
         type="error"
         message="未找到设备"
-        action={<Button onClick={() => navigate("/devices")}>返回列表</Button>}
+        action={<Button onClick={() => navigate(returnTo)}>返回上一页</Button>}
       />
     );
   const doAsync = (
@@ -104,7 +107,7 @@ export default function DeviceDetailPage() {
         <Space align="start">
           <Button
             icon={<ArrowLeftOutlined />}
-            onClick={() => navigate("/devices")}
+            onClick={() => navigate(returnTo)}
           />
           <div>
             <Space>
@@ -113,7 +116,7 @@ export default function DeviceDetailPage() {
               <OnlineBadge online={d.online} />
             </Space>
             <Typography.Text type="secondary">
-              {d.name} · {riskMessage(d)}
+              {d.labelName} · {d.name} · {riskMessage(d)}
             </Typography.Text>
           </div>
         </Space>

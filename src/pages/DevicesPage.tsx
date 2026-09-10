@@ -49,7 +49,7 @@ export default function DevicesPage() {
         .filter(
           (d) =>
             !keyword ||
-            `${d.id}${d.name}${d.bleRoom}${d.owner}`
+            `${d.id}${d.name}${d.labelName}${d.bleRoom}${d.owner}`
               .toLowerCase()
               .includes(keyword.toLowerCase()),
         )
@@ -93,7 +93,9 @@ export default function DevicesPage() {
           onClick={() => navigate(`/devices/${v}`)}
         >
           <b>{v}</b>
-          <small>{r.name}</small>
+          <small>
+            {r.labelName} · {r.name}
+          </small>
         </button>
       ),
     },

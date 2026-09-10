@@ -137,6 +137,28 @@ const names = [
   "Viscometer",
   "Tablet Hardness Tester",
 ];
+const labelNames = [
+  "配液罐",
+  "分析天平",
+  "电导率仪",
+  "高效液相色谱仪",
+  "总有机碳分析仪",
+  "溶出度仪",
+  "pH 计",
+  "培养箱",
+  "离心机",
+  "高压灭菌器",
+  "分光光度计",
+  "水分测定仪",
+  "粒子计数器",
+  "温度记录仪",
+  "气相色谱仪",
+  "显微镜",
+  "纯水机",
+  "稳定性试验箱",
+  "黏度计",
+  "片剂硬度仪",
+];
 const depts = ["QC", "Production", "Engineering", "Laboratory"];
 const rooms = [
   "Room 101",
@@ -188,6 +210,7 @@ export const devices: Device[] = Array.from({ length: 40 }, (_, i) => {
   return {
     id: i === 0 ? "EQ-001527" : `EQ-${String(120 + i).padStart(5, "0")}`,
     name: names[i % names.length],
+    labelName: labelNames[i % labelNames.length],
     model: `LAB-${["A", "B", "C", "X"][i % 4]}${100 + i}`,
     serialNumber: `SN26${String(51000 + i * 17)}`,
     assetTag: `AT-${String(8600 + i)}`,

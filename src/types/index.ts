@@ -51,6 +51,7 @@ export interface ProcessStatus {
 export interface Device {
   id: string;
   name: string;
+  labelName: string;
   model: string;
   serialNumber: string;
   assetTag: string;
