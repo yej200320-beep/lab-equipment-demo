@@ -551,12 +551,12 @@ function SettingsAdmin() {
   return (
     <>
       {ctx}
-      <Alert
+      {/* <Alert
         type="info"
         showIcon
         message="邮件服务为 Mock 模式"
         description="规则修改会保存在当前浏览器中，但不会向真实收件人发送邮件。"
-      />
+      /> */}
       <Card className="section-row">
         <Table
           rowKey="id"

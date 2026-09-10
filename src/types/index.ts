@@ -137,3 +137,23 @@ export interface Gateway {
   heartbeat: string;
   uptime: string;
 }
+
+export type SystemHardwareType = "BLE 网关" | "定位基站" | "电子标签写入器";
+
+export interface SystemHardware {
+  id: string;
+  name: string;
+  type: SystemHardwareType;
+  model: string;
+  serialNumber: string;
+  room: string;
+  position: string;
+  ip: string;
+  port: number;
+  online: boolean;
+  connectedDevices: number;
+  heartbeat: string;
+  uptime: string;
+  firmware: string;
+  owner: string;
+}

@@ -26,7 +26,7 @@ export default function LoginPage() {
         </div>
         <Tag color="cyan">ENTERPRISE EQUIPMENT OPERATIONS</Tag>
         <Typography.Title>
-          实验室设备
+          生产房间设备
           <br />
           数字化管理平台
         </Typography.Title>

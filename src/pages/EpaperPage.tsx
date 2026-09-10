@@ -127,48 +127,20 @@ export default function EpaperPage() {
                   >
                     闪烁
                   </Button>
-                  {/* <Button
-                    icon={<BulbOutlined />}
-                    disabled={!hasPermission("LED_CONTROL")}
-                    onClick={() => sendLedCommand("常亮", d)}
-                    style={{
-                      color: "#52c41a",
-                      borderColor: "#52c41a",
-                    }}
-                  >
-                    常亮
-                  </Button>
-                  <Button
-                    icon={<PoweroffOutlined />}
-                    disabled={!hasPermission("LED_CONTROL")}
-                    onClick={() => sendLedCommand("关闭", d)}
-                     style={{
-                      color: "#262626",
-                      borderColor: "#262626",
-                    }}
-                  >
-                    关闭
-                  </Button> */}
-
-
                   <Button
                     className="led-on-button"
                     icon={<BulbOutlined />}
-                    // disabled={!hasPermission("LED_CONTROL")}
                     onClick={() => sendLedCommand("常亮", d)}
                   >
                     常亮
                   </Button>
-
                   <Button
                     className="led-off-button"
                     icon={<PoweroffOutlined />}
-                    // disabled={!hasPermission("LED_CONTROL")}
                     onClick={() => sendLedCommand("关闭", d)}
                   >
                     关闭
                   </Button>
-
                 </Space.Compact>
               </Space>
             </Card>

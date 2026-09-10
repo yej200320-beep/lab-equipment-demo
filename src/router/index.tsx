@@ -6,6 +6,7 @@ import DashboardPage from "../pages/DashboardPage";
 import DeviceDetailPage from "../pages/DeviceDetailPage";
 import DevicesPage from "../pages/DevicesPage";
 import EpaperPage from "../pages/EpaperPage";
+import HardwarePage from "../pages/HardwarePage";
 import LocationsPage from "../pages/LocationsPage";
 import LoginPage from "../pages/LoginPage";
 import { useDemo } from "../store/DemoContext";
@@ -25,6 +26,7 @@ export const router = createHashRouter([
       { path: "devices", element: <DevicesPage /> },
       { path: "devices/:id", element: <DeviceDetailPage /> },
       { path: "epaper", element: <EpaperPage /> },
+      { path: "hardware", element: <HardwarePage /> },
       { path: "locations", element: <LocationsPage /> },
       { path: "finder", element: <LocationsPage /> },
       { path: "movement", element: <LocationsPage /> },
@@ -32,7 +34,10 @@ export const router = createHashRouter([
       { path: "notifications", element: <AlertsPage /> },
       { path: "admin/users", element: <AdminPage /> },
       { path: "admin/departments", element: <AdminPage /> },
-      { path: "admin/gateways", element: <AdminPage /> },
+      {
+        path: "admin/gateways",
+        element: <Navigate to="/hardware" replace />,
+      },
       { path: "admin/maximo", element: <AdminPage /> },
       { path: "admin/settings", element: <AdminPage /> },
       { path: "admin/logs", element: <AdminPage /> },

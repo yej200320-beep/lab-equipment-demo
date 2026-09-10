@@ -5,6 +5,7 @@ import {
   BellOutlined,
   DashboardOutlined,
   ExperimentOutlined,
+  HddOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -59,6 +60,7 @@ export default function AppShell() {
         children: [
           { key: "/devices", label: "设备列表" },
           { key: "/epaper", label: "电子标签", icon: <TagsOutlined /> },
+          { key: "/hardware", label: "系统硬件", icon: <HddOutlined /> },
         ],
       },
       ...(hasPermission("LOCATION_VIEW")
@@ -97,7 +99,6 @@ export default function AppShell() {
               children: [
                 { key: "/admin/users", label: "用户与权限" },
                 { key: "/admin/departments", label: "部门管理" },
-                { key: "/admin/gateways", label: "BLE 网关" },
                 { key: "/admin/maximo", label: "Maximo 同步" },
                 { key: "/admin/settings", label: "通知配置" },
                 { key: "/admin/logs", label: "系统日志" },
@@ -112,6 +113,7 @@ export default function AppShell() {
     "/dashboard": "总览",
     "/devices": "设备列表",
     "/epaper": "电子标签",
+    "/hardware": "系统硬件",
     "/locations": "房间视图",
     "/finder": "设备查找",
     "/movement": "移动历史",
@@ -139,7 +141,7 @@ export default function AppShell() {
           </div>
           {!collapsed && (
             <div>
-              <strong>实验室设备</strong>
+              <strong>生产房间设备</strong>
               <span>数字化管理平台</span>
             </div>
           )}
