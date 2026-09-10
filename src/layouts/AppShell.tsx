@@ -156,16 +156,6 @@ export default function AppShell() {
           items={menuItems}
           onClick={({ key }) => key.startsWith("/") && navigate(key)}
         />
-        {/* <div className="side-footer">
-          <span className="pulse" />
-          {!collapsed && (
-            <>
-              系统运行正常
-              <br />
-              <small>v1.0 · DEMO 环境</small>
-            </>
-          )}
-        </div> */}
       </Sider>
       <Layout
         className="main-layout"

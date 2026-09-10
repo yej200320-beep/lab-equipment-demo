@@ -1,6 +1,10 @@
-import { AimOutlined, SearchOutlined } from "@ant-design/icons";
 import {
-  Alert,
+  AimOutlined,
+  BulbOutlined,
+  PoweroffOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
+import {
   Button,
   Card,
   Col,
@@ -34,15 +38,28 @@ export default function EpaperPage() {
             .includes(query.toLowerCase())),
     )
     .slice(0, 12);
+
+  const sendLedCommand = (
+    action: "闪烁" | "常亮" | "关闭",
+    device: (typeof devices)[0],
+  ) => {
+    const running =
+      action === "关闭" ? "正在关闭 LED…" : `正在下发 LED ${action}指令…`;
+    const success =
+      action === "关闭" ? "LED 已关闭" : `LED ${action}指令发送成功`;
+    msg.loading({ content: running, key: "led" });
+    setTimeout(() => {
+      msg.success({ content: success, key: "led" });
+      addLog(`LED ${action}`, device.id, `电子标签 ${device.tagId}`);
+    }, 800);
+  };
+
   return (
     <>
       {ctx}
       <div className="page-heading">
         <div>
           <Typography.Title level={2}>电子标签</Typography.Title>
-          {/* <Typography.Text type="secondary">
-            查看 Maximo 下游数据在 BLE + 2.9 英寸电子墨水屏上的同步状态
-          </Typography.Text> */}
         </div>
         <Input
           prefix={<SearchOutlined />}
@@ -53,13 +70,6 @@ export default function EpaperPage() {
           style={{ width: 280 }}
         />
       </div>
-      {/* <Alert
-        showIcon
-        type="info"
-        className="detail-alert"
-        message="电子标签内容由上游 Maximo 数据驱动"
-        description="本平台负责接收、展示并监测同步结果，不提供人工修改或向 Maximo 写回入口。"
-      /> */}
       <Row gutter={[16, 16]}>
         {view.map((d) => (
           <Col xs={24} lg={12} xl={8} key={d.id}>
@@ -96,27 +106,34 @@ export default function EpaperPage() {
                   },
                 ]}
               />
-              <Space className="epaper-actions">
+              <Space className="epaper-actions" wrap>
                 <Button onClick={() => navigate(`/devices/${d.id}`)}>
                   查看设备
                 </Button>
-                <Button
-                  icon={<AimOutlined />}
-                  danger
-                  disabled={!hasPermission("LED_CONTROL")}
-                  onClick={() => {
-                    msg.loading({ content: "正在下发 LED 指令…", key: "led" });
-                    setTimeout(() => {
-                      msg.success({
-                        content: "LED 闪烁指令发送成功",
-                        key: "led",
-                      });
-                      addLog("LED 查找", d.id, `电子标签 ${d.tagId}`);
-                    }, 800);
-                  }}
-                >
-                  LED 闪烁
-                </Button>
+                <Space.Compact>
+                  <Button
+                    danger
+                    icon={<AimOutlined />}
+                    disabled={!hasPermission("LED_CONTROL")}
+                    onClick={() => sendLedCommand("闪烁", d)}
+                  >
+                    闪烁
+                  </Button>
+                  <Button
+                    icon={<BulbOutlined />}
+                    disabled={!hasPermission("LED_CONTROL")}
+                    onClick={() => sendLedCommand("常亮", d)}
+                  >
+                    常亮
+                  </Button>
+                  <Button
+                    icon={<PoweroffOutlined />}
+                    disabled={!hasPermission("LED_CONTROL")}
+                    onClick={() => sendLedCommand("关闭", d)}
+                  >
+                    关闭
+                  </Button>
+                </Space.Compact>
               </Space>
             </Card>
           </Col>

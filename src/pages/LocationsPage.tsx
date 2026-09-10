@@ -565,110 +565,108 @@ export default function LocationsPage() {
           </Row>
         </Card>
         )} */}
-       
-        <Drawer
-            title={`${selectedRoom ?? ""} · 房间设备`}
-            placement="bottom"
-            open={!!selectedRoom}
-            onClose={() => setSelectedRoom(undefined)}
-            height="48vh"
-            destroyOnClose
-            mask={false}
-            styles={{
-              wrapper: {
-                left: 288,
-                width: "calc(100% - 288px)",
-              },
-              mask: {
-                left: 288,
-                width: "calc(100% - 288px)",
-              },
-            }}
-          >
-          {selectedRoom && (
-            <Row gutter={[16, 16]}>
-              <Col xs={24} lg={7}>
-                <div className="room-summary">
-                  <EnvironmentOutlined />
 
-                  <h2>{selectedRoom}</h2>
+      <Drawer
+        title={`${selectedRoom ?? ""} · 房间设备`}
+        placement="bottom"
+        open={!!selectedRoom}
+        onClose={() => setSelectedRoom(undefined)}
+        height="48vh"
+        destroyOnClose
+        mask={false}
+        styles={{
+          wrapper: {
+            left: 288,
+            width: "calc(100% - 288px)",
+          },
+          mask: {
+            left: 288,
+            width: "calc(100% - 288px)",
+          },
+        }}
+      >
+        {selectedRoom && (
+          <Row gutter={[16, 16]}>
+            <Col xs={24} lg={7}>
+              <div className="room-summary">
+                <EnvironmentOutlined />
 
-                  <p>{roomPosition(selectedRoom)}</p>
+                <h2>{selectedRoom}</h2>
 
-                  <div>
-                    <span>
-                      设备
-                      <strong>{selectedDevices.length}</strong>
-                    </span>
+                <p>{roomPosition(selectedRoom)}</p>
 
-                    <span>
-                      离线
-                      <strong>
-                        {selectedDevices.filter((d) => !d.online).length}
-                      </strong>
-                    </span>
+                <div>
+                  <span>
+                    设备
+                    <strong>{selectedDevices.length}</strong>
+                  </span>
 
-                    <span>
-                      低电量
-                      <strong>
-                        {selectedDevices.filter((d) => d.battery < 20).length}
-                      </strong>
-                    </span>
-                  </div>
+                  <span>
+                    离线
+                    <strong>
+                      {selectedDevices.filter((d) => !d.online).length}
+                    </strong>
+                  </span>
+
+                  <span>
+                    低电量
+                    <strong>
+                      {selectedDevices.filter((d) => d.battery < 20).length}
+                    </strong>
+                  </span>
                 </div>
-              </Col>
+              </div>
+            </Col>
 
-              <Col xs={24} lg={17}>
-                <Table
-                  size="small"
-                  pagination={false}
-                  rowKey="id"
-                  dataSource={selectedDevices}
-                  columns={[
-                    {
-                      title: "设备",
-                      dataIndex: "id",
-                      render: (v, r) => (
-                        <button
-                          className="link-button"
-                          onClick={() => navigate(`/devices/${v}`)}
-                        >
-                          <b>{v}</b>
-                          <small>{r.name}</small>
-                        </button>
-                      ),
-                    },
-                    {
-                      title: "状态",
-                      dataIndex: "overall",
-                      render: (v) => <RiskTag status={v} />,
-                    },
-                    {
-                      title: "BLE",
-                      dataIndex: "online",
-                      render: (v) => <OnlineBadge online={v} />,
-                    },
-                    {
-                      title: "信号",
-                      dataIndex: "rssi",
-                      render: (v) => (
-                        <Tag>
-                          {signalLabel(v)} · {v} dBm
-                        </Tag>
-                      ),
-                    },
-                    {
-                      title: "最后发现",
-                      dataIndex: "lastSeen",
-                    },
-                  ]}
-                />
-              </Col>
-            </Row>
-          )}
-        </Drawer>
-
-      
+            <Col xs={24} lg={17}>
+              <Table
+                size="small"
+                pagination={false}
+                rowKey="id"
+                dataSource={selectedDevices}
+                columns={[
+                  {
+                    title: "设备",
+                    dataIndex: "id",
+                    render: (v, r) => (
+                      <button
+                        className="link-button"
+                        onClick={() => navigate(`/devices/${v}`)}
+                      >
+                        <b>{v}</b>
+                        <small>{r.name}</small>
+                      </button>
+                    ),
+                  },
+                  {
+                    title: "状态",
+                    dataIndex: "overall",
+                    render: (v) => <RiskTag status={v} />,
+                  },
+                  {
+                    title: "BLE",
+                    dataIndex: "online",
+                    render: (v) => <OnlineBadge online={v} />,
+                  },
+                  {
+                    title: "信号",
+                    dataIndex: "rssi",
+                    render: (v) => (
+                      <Tag>
+                        {signalLabel(v)} · {v} dBm
+                      </Tag>
+                    ),
+                  },
+                  {
+                    title: "最后发现",
+                    dataIndex: "lastSeen",
+                  },
+                ]}
+              />
+            </Col>
+          </Row>
+        )}
+      </Drawer>
     </>
   );
 }
