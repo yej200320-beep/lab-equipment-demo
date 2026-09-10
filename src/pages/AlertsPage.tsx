@@ -47,6 +47,7 @@ export default function AlertsPage() {
   } = useDemo();
   const location = useLocation();
   const navigate = useNavigate();
+  const returnTo = `${location.pathname}${location.search}`;
   const [selected, setSelected] = useState<AlertItem>();
   const [mail, setMail] = useState<NotificationRecord>();
   const [msg, ctx] = message.useMessage();
@@ -193,7 +194,12 @@ export default function AlertsPage() {
               width: 130,
               render: (v) =>
                 v ? (
-                  <Button type="link" onClick={() => navigate(`/devices/${v}`)}>
+                  <Button
+                    type="link"
+                    onClick={() =>
+                      navigate(`/devices/${v}`, { state: { returnTo } })
+                    }
+                  >
                     {v}
                   </Button>
                 ) : (

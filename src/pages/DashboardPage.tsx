@@ -17,14 +17,16 @@ import {
   Tag,
   Typography,
 } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { devices } from "../mock/data";
 import { useDemo } from "../store/DemoContext";
 import { statusMeta } from "../utils/status";
 
 export default function DashboardPage() {
   const { alerts, visibleDepartments } = useDemo();
+  const location = useLocation();
   const navigate = useNavigate();
+  const returnTo = `${location.pathname}${location.search}`;
   const view = devices.filter((d) => visibleDepartments.includes(d.department));
   const count = (s: string) => view.filter((d) => d.overall === s).length;
   const pending = alerts.filter(
@@ -172,7 +174,9 @@ export default function DashboardPage() {
                   render: (v, r) => (
                     <button
                       className="link-button"
-                      onClick={() => navigate(`/devices/${v}`)}
+                      onClick={() =>
+                        navigate(`/devices/${v}`, { state: { returnTo } })
+                      }
                     >
                       <b>{v}</b>
                       <small>{r.name}</small>
@@ -194,7 +198,9 @@ export default function DashboardPage() {
                   render: (_, r) => (
                     <Button
                       size="small"
-                      onClick={() => navigate(`/devices/${r.id}`)}
+                      onClick={() =>
+                        navigate(`/devices/${r.id}`, { state: { returnTo } })
+                      }
                     >
                       查看
                     </Button>

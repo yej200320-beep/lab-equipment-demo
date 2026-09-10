@@ -12,7 +12,7 @@ import {
   Typography,
 } from "antd";
 import { useMemo, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { LifecycleTag, OnlineBadge, RiskTag } from "../components/StatusTag";
 import { departments, devices } from "../mock/data";
 import { useDemo } from "../store/DemoContext";
@@ -35,7 +35,9 @@ function ProcessMetricCell({ metric }: { metric: ProcessMetric }) {
 
 export default function DevicesPage() {
   const { visibleDepartments } = useDemo();
+  const location = useLocation();
   const navigate = useNavigate();
+  const returnTo = `${location.pathname}${location.search}`;
   const [params] = useSearchParams();
   const [keyword, setKeyword] = useState(params.get("q") || "");
   const [dept, setDept] = useState<string>();
@@ -90,7 +92,7 @@ export default function DevicesPage() {
       render: (v: string, r: Device) => (
         <button
           className="link-button"
-          onClick={() => navigate(`/devices/${v}`)}
+          onClick={() => navigate(`/devices/${v}`, { state: { returnTo } })}
         >
           <b>{v}</b>
           <small>
@@ -176,7 +178,10 @@ export default function DevicesPage() {
       fixed: "right" as const,
       width: 80,
       render: (_: unknown, r: Device) => (
-        <Button type="link" onClick={() => navigate(`/devices/${r.id}`)}>
+        <Button
+          type="link"
+          onClick={() => navigate(`/devices/${r.id}`, { state: { returnTo } })}
+        >
           详情
         </Button>
       ),

@@ -70,6 +70,7 @@ export default function LocationsPage() {
   const { visibleDepartments, hasPermission, addLog } = useDemo();
   const location = useLocation();
   const navigate = useNavigate();
+  const returnTo = `${location.pathname}${location.search}`;
   const [msg, ctx] = message.useMessage();
   const [selectedRoom, setSelectedRoom] = useState<string>();
   const [query, setQuery] = useState("EQ-001527");
@@ -221,7 +222,11 @@ export default function LocationsPage() {
                 <Space direction="vertical" className="finder-actions">
                   <Button
                     block
-                    onClick={() => navigate(`/devices/${found.id}`)}
+                    onClick={() =>
+                      navigate(`/devices/${found.id}`, {
+                        state: { returnTo },
+                      })
+                    }
                   >
                     设备详情
                   </Button>
@@ -370,7 +375,12 @@ export default function LocationsPage() {
                 title: "设备",
                 dataIndex: "device",
                 render: (v) => (
-                  <Button type="link" onClick={() => navigate(`/devices/${v}`)}>
+                  <Button
+                    type="link"
+                    onClick={() =>
+                      navigate(`/devices/${v}`, { state: { returnTo } })
+                    }
+                  >
                     {v}
                   </Button>
                 ),
@@ -532,7 +542,9 @@ export default function LocationsPage() {
                     render: (v, r) => (
                       <button
                         className="link-button"
-                        onClick={() => navigate(`/devices/${v}`)}
+                        onClick={() =>
+                          navigate(`/devices/${v}`, { state: { returnTo } })
+                        }
                       >
                         <b>{v}</b>
                         <small>{r.name}</small>
@@ -631,7 +643,9 @@ export default function LocationsPage() {
                     render: (v, r) => (
                       <button
                         className="link-button"
-                        onClick={() => navigate(`/devices/${v}`)}
+                        onClick={() =>
+                          navigate(`/devices/${v}`, { state: { returnTo } })
+                        }
                       >
                         <b>{v}</b>
                         <small>{r.name}</small>

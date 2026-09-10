@@ -17,7 +17,7 @@ import {
   Typography,
 } from "antd";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { EpaperPreview } from "../components/EpaperPreview";
 import { OnlineBadge } from "../components/StatusTag";
 import { devices } from "../mock/data";
@@ -25,7 +25,9 @@ import { useDemo } from "../store/DemoContext";
 
 export default function EpaperPage() {
   const { visibleDepartments, hasPermission, addLog } = useDemo();
+  const location = useLocation();
   const navigate = useNavigate();
+  const returnTo = `${location.pathname}${location.search}`;
   const [query, setQuery] = useState("");
   const [msg, ctx] = message.useMessage();
   const view = devices
@@ -110,7 +112,7 @@ export default function EpaperPage() {
                 <Button
                   onClick={() =>
                     navigate(`/devices/${d.id}`, {
-                      state: { returnTo: "/epaper" },
+                      state: { returnTo },
                     })
                   }
                 >
