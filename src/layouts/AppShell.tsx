@@ -187,7 +187,7 @@ export default function AppShell() {
             <span className="topbar-spacer" aria-hidden="true" />
           )}
           <Space size={12}>
-            <Tag color="orange">YE JUN</Tag>
+            {/* <Tag color="orange">YE JUN</Tag> */}
             <Tooltip title="系统连接正常">
               <Badge status="success" text="系统状态" />
             </Tooltip>
