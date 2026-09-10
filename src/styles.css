@@ -1046,3 +1046,24 @@ input {
 .user-chip > span:last-child {
   min-width: 116px;
 }
+
+
+.led-on-button {
+  color: #52c41a !important;
+  border-color: #52c41a !important;
+}
+
+.led-on-button:hover {
+  color: #389e0d !important;
+  border-color: #389e0d !important;
+}
+
+.led-off-button {
+  color: #262626 !important;
+  border-color: #262626 !important;
+}
+
+.led-off-button:hover {
+  color: #000 !important;
+  border-color: #000 !important;
+}
